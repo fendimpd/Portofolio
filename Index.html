@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ganti [Nama Anda] dengan nama Anda -->
+    <title>Portofolio [Nama Anda]</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 1. Tambahkan CSS Fancybox untuk Lightbox -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <!-- Ganti [Nama Anda] dengan nama Anda -->
+                <a href="#">[Nama Anda]</a>
+            </div>
+            <ul>
+                <li><a href="#portfolio">Portofolio</a></li>
+                <li><a href="#about">Tentang Saya</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+            <!-- 1. Tambahkan Tombol Hamburger untuk Mobile -->
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <h1>Fotografer & Videografer Profesional</h1>
+            <p>Mengabadikan momen berharga dengan sentuhan sinematik.</p>
+        </section>
+
+        <section id="portfolio">
+            <h2>Karya Saya</h2>
+            <!-- Tombol untuk memfilter galeri -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">Semua</button>
+                <button class="filter-btn" data-filter="fotografi">Fotografi</button>
+                <button class="filter-btn" data-filter="videografi">Videografi</button>
+            </div>
+
+            <div class="portfolio-gallery">
+                <?php
+                // --- MEMUAT FOTO SECARA OTOMATIS ---
+                $photo_folder_path = 'galeri/fotografi/';
+                // Dapatkan semua file gambar dari folder (jpg, jpeg, png, gif)
+                $photo_files = glob($photo_folder_path . '*.{JPG,jpeg,png,gif}', GLOB_BRACE);
+
+                // Loop melalui setiap file foto yang ditemukan
+                foreach($photo_files as $file) {
+                    $filename = basename($file);
+                    $title = ucwords(str_replace(['-', '_'], ' ', pathinfo($filename, PATHINFO_FILENAME)));
+
+                    // Cetak blok HTML untuk setiap item foto
+                    // 2. Tambahkan tag <a> untuk fungsionalitas Lightbox dengan Fancybox
+                    // 3. Tambahkan atribut loading="lazy" pada <img>
+                    echo '<div class="portfolio-item" data-category="fotografi">';
+                    echo '    <a href="' . $file . '" data-fancybox="gallery"><img src="' . $file . '" alt="' . $title . '" loading="lazy"></a>';
+                    echo '</div>';
+                }
+
+                // --- MEMUAT VIDEO SECARA OTOMATIS ---
+                $video_folder_path = 'galeri/videografi/';
+                // Dapatkan semua file video dari folder (mp4, webm, mov)
+                $video_files = glob($video_folder_path . '*.{mp4,webm,mov}', GLOB_BRACE);
+
+                // Loop melalui setiap file video yang ditemukan
+                foreach($video_files as $file) {
+                    $filename = basename($file);
+                    $file_extension = pathinfo($filename, PATHINFO_EXTENSION);
+                    $title = ucwords(str_replace(['-', '_'], ' ', pathinfo($filename, PATHINFO_FILENAME)));
+
+                    // Cetak blok HTML untuk setiap item video
+                    // 3. Tambahkan atribut loading="lazy" pada <video>
+                    echo '<div class="portfolio-item" data-category="videografi">';
+                    echo '    <video width="100%" muted autoplay playsinline controls loading="lazy"><source src="' . $file . '" type="video/' . $file_extension . '"></video>';
+                    echo '    <div class="overlay"><h3>' . $title . '</h3></div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2>Tentang Saya</h2>
+            <p>Saya adalah seorang fotografer dan videografer dengan hasrat untuk menangkap cerita melalui lensa. Dengan pengalaman lebih dari 5 tahun, saya berspesialisasi dalam fotografi potret, acara, dan pembuatan video sinematik untuk berbagai kebutuhan.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Hubungi Saya</h2>
+            <p>Tertarik untuk berkolaborasi? Silakan isi form di bawah ini untuk mengirim pesan via WhatsApp.</p>
+            <form id="whatsapp-form" class="contact-form" action="#" method="POST">
+                <div class="form-group">
+                    <input type="text" id="nama" name="nama" placeholder="Nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <textarea id="pesan" name="pesan" placeholder="Pesan Anda" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn-kirim">Kirim via WhatsApp</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <!-- Ganti [Nama Anda] dengan nama Anda -->
+        <p>&copy; 2025 [Nama Anda]. Semua Hak Cipta Dilindungi.</p>
+    </footer>
+
+    <!-- 5. Tambahkan JavaScript Fancybox dan hubungkan script.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
